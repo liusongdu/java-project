@@ -33,11 +33,11 @@
     <jar destfile="${dist.dir}\rectangle.jar" basedir="${build.dir}">
 	  <manifest>
 	    <attribute name="Main-Class" value="Rectangulator" />
-	  <manifest/>
+	  </manifest>
     </jar>
   </target>
 
   <target name="main" depends="compile, jar">
-    <description>Main target<description/>
+    <description>Main target</description>
   </target>
 </project>
