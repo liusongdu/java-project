@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Unit Tests') {
       agent {
-        'apache'
+        label 'apache'
       }
       steps {
         sh 'ant -f test.xml -v'
@@ -13,7 +13,7 @@ pipeline {
     }
     stage('build') {
       agent {
-        'apache'
+        label 'apache'
       }
       steps {
         sh 'ant -f build.xml -v'
@@ -21,7 +21,7 @@ pipeline {
     }
     stage('deploy') {
       agent {
-        'apache'
+        label 'apache'
       }
       steps {
         sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/"
@@ -29,7 +29,7 @@ pipeline {
     }
     stage('Running on CentOS') {
       agent {
-        'CentOS'
+        label 'CentOS'
       }
       steps {
         sh "wget http://13.209.38.9/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
