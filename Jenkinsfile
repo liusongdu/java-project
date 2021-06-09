@@ -18,6 +18,11 @@ pipeline {
       steps {
         sh 'ant -f build.xml -v'
       }
+      post {
+        always {
+          archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+        }
+      }
     }
     stage('deploy') {
       agent {
@@ -32,15 +37,18 @@ pipeline {
         label 'CentOS'
       }
       steps {
-        sh "wget http://52.32.189.181/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "wget http://13.209.38.9/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
       }
     }
-  }
-
-  post {
-    always {
-      archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+    stage('Test on Debian') {
+      agent {
+        docker 'openjdk:8u171-jre'
+      }
+      steps {
+        sh "wget http://52.32.189.181/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+      }
     }
   }
 }
