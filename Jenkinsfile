@@ -60,7 +60,7 @@ pipeline {
         label 'apache'
       }
       when {
-        branch 'development'
+        branch 'master'
       }
       steps {
         sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
@@ -89,6 +89,26 @@ pipeline {
         sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
         sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
       }
+      post {
+        success {
+          emailext(
+            subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Development Promoted to Master",
+            body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Development Promoted to Master":</p>
+            <p>Check console output at "<a href='${env.BUILD_URL}'>${JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+            to: "liusongdu@gmail.com"
+          )
+        }
+      }
+    }
+  }
+  post {
+    failure {
+      emailext(
+        subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
+        body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Failed!":</p>
+        <p>Check console output at "<a href='${env.BUILD_URL}'>${JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+        to: "liusongdu@gmail.com"
+      )
     }
   }
 }
