@@ -88,7 +88,7 @@ pipeline {
         echo 'Tagging the Release'
 
         echo "Deletes the local tags."
-        sh '#git tag | xargs git tag -d'
+        sh 'git tag | xargs git tag -d'
 
         echo "Deletes the local tag to avoid confliction with existing one."
         sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER} | xargs git tag -d"
