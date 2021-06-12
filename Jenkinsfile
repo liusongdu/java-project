@@ -85,10 +85,12 @@ pipeline {
         sh 'git merge development'
         echo 'Pushing to Origin Master'
         sh 'git push origin master'
-        echo 'Tagging the Release'
         echo "Deletes the local tag to avoid confliction with existing one."
         sh "git tag -l rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER} | xargs git tag -d"
-        sh "git tag    rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+        echo "Delete a remote tag."
+        sh "git push origin :refs/tags/rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+        echo 'Tagging the Release'
+        sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
         sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
       }
       post {
