@@ -2,7 +2,7 @@ pipeline {
   agent none
 
   environment {
-    MAJOR_VERSION = 2
+    MAJOR_VERSION = 1
   }
 
   stages {
@@ -74,6 +74,7 @@ pipeline {
         branch 'development'
       }
       steps {
+        sh 'git tag | xargs git tag -d'
         echo "Stashing Any Local Changes"
         sh 'git stash'
         echo "Checking Out Development Branch"
