@@ -74,7 +74,11 @@ pipeline {
         branch 'development'
       }
       steps {
+        echo "Deletes the local tags."
         sh 'git tag | xargs git tag -d'
+        echo "Delete them from the remote."
+        sh 'git tag -l | xargs -n 1 git push --delete origin'
+
         echo "Stashing Any Local Changes"
         sh 'git stash'
         echo "Checking Out Development Branch"
