@@ -91,9 +91,9 @@ pipeline {
         sh '#git tag | xargs git tag -d'
 
         echo "Deletes the local tag to avoid confliction with existing one."
-        sh 'git tag -d rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}'
+        sh "git tag -d rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
 
-        sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+        sh "git tag    rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
         sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
       }
       post {
